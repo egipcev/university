@@ -1,0 +1,5 @@
+AA-11;Donald;Trump
+AA-11;Ivan;Ivanov
+AA-11;Petr;Petrenko
+BB-22;Vitalii;Klichko
+BB-22;Sidor;Sidorov

@@ -1,4 +1,4 @@
-package model;
+package ua.com.foxminded.model;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public abstract class Person {
 
+    private String id;
     private String firstName;
     private String lastName;
 
