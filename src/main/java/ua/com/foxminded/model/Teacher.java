@@ -1,4 +1,4 @@
-package model;
+package ua.com.foxminded.model;
 
 import java.util.List;
 
