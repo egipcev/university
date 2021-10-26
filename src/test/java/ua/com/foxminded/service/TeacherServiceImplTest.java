@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import lombok.SneakyThrows;
 import ua.com.foxminded.controller.dao.TeacherDao;
 import ua.com.foxminded.model.Teacher;
 
@@ -22,6 +23,7 @@ class TeacherServiceImplTest extends BaseServiceTest {
     }
 
     @Test
+    @SneakyThrows
     void testGetTeacherById() {
         String TEACHER_ID = "1";
         Teacher teacher = new Teacher();

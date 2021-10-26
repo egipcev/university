@@ -10,6 +10,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import lombok.SneakyThrows;
 import ua.com.foxminded.controller.dao.TimeTableItemDao;
 import ua.com.foxminded.model.Teacher;
 import ua.com.foxminded.model.TimeTable;
@@ -28,6 +29,7 @@ class TimeTableServiceImplTest extends BaseServiceTest {
     }
 
     @Test
+    @SneakyThrows
     void testGetDayTimeTablePerTeacher() {
         List<TimeTableItem> list = new ArrayList<>();
         String TEACHER_ID = "1";

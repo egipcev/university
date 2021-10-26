@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="APP_LOG" value="logs/app.log" />
+    <property name="SPRING_LOG" value="logs/spring.log" />
+    <appender name="SPRING-LOG"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${SPRING_LOG}</file>
+
+        <rollingPolicy
+            class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/archived/spring.%d{yyyy-MM-dd}.%i.log.gz
+            </fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <totalSizeCap>20GB</totalSizeCap>
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} -
+                %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="APP-LOG"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${APP_LOG}</file>
+
+        <rollingPolicy
+            class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/archived/app.%d{yyyy-MM-dd}.%i.log.gz
+            </fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <totalSizeCap>20GB</totalSizeCap>
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} -
+                %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <logger name="ua.com.foxminded">
+        <level value="INFO" />
+        <appender-ref ref="APP-LOG" />
+    </logger>
+    <logger name="org.springframework" additivity="false">
+        <level value="DEBUG" />
+        <appender-ref ref="SPRING-LOG" />
+    </logger>
+    
+</configuration>

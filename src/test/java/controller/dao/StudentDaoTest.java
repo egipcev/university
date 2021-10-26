@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
+import lombok.SneakyThrows;
 import ua.com.foxminded.model.Group;
 import ua.com.foxminded.model.Student;
 
@@ -17,6 +18,7 @@ class StudentDaoTest extends DaoBaseTest {
     static final String GROUP_NAME = "AA-11";
 
     @Test
+    @SneakyThrows
     void testCreateStudent() {
         Student newStudent = new Student();
         newStudent.setFirstName(FIRST_NAME);
@@ -31,6 +33,7 @@ class StudentDaoTest extends DaoBaseTest {
     }
 
     @Test
+    @SneakyThrows
     void testDeleteStudent() {
         Student newStudent = new Student();
         newStudent.setFirstName(FIRST_NAME);
@@ -48,6 +51,7 @@ class StudentDaoTest extends DaoBaseTest {
     }
 
     @Test
+    @SneakyThrows
     void testUpdateStudent() {
         Student newStudent = new Student();
         newStudent.setFirstName(FIRST_NAME);

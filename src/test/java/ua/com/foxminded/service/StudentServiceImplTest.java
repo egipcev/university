@@ -9,6 +9,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import lombok.SneakyThrows;
 import ua.com.foxminded.controller.dao.StudentDao;
 import ua.com.foxminded.model.Student;
 
@@ -25,6 +26,7 @@ class StudentServiceImplTest extends BaseServiceTest {
     }
 
     @Test
+    @SneakyThrows
     void testGetStudentById() {
         String STUDENT_ID = "1";
         Student student = new Student();
@@ -34,6 +36,7 @@ class StudentServiceImplTest extends BaseServiceTest {
     }
 
     @Test
+    @SneakyThrows
     void testGetAllStudents() {
         Student studentOne = new Student();
         Student studentTwo = new Student();

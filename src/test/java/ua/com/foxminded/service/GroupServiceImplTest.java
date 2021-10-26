@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import lombok.SneakyThrows;
 import ua.com.foxminded.controller.dao.GroupDao;
 import ua.com.foxminded.model.Group;
 
@@ -22,6 +23,7 @@ class GroupServiceImplTest extends BaseServiceTest {
     }
 
     @Test
+    @SneakyThrows
     void testGetGroupByName() {
         String GROUP_NAME = "Name";
         Group group = new Group(GROUP_NAME);
