@@ -30,6 +30,7 @@ import ua.com.foxminded.controller.dao.GroupDao;
 import ua.com.foxminded.controller.dao.StudentDao;
 import ua.com.foxminded.controller.dao.TeacherDao;
 import ua.com.foxminded.controller.dao.TimeTableItemDao;
+import ua.com.foxminded.controller.exception.DaoException;
 import ua.com.foxminded.model.Course;
 import ua.com.foxminded.model.Group;
 import ua.com.foxminded.model.Student;
@@ -81,7 +82,7 @@ public class DaoBaseTest {
     protected TimeTableItemDao timeTableItemDao;
 
     @BeforeEach
-    void prepareTestData() {
+    void prepareTestData() throws DaoException {
         createTables();
         try {
             groupDao.insertGroups(Files.newBufferedReader(Paths.get(getResourceURI(GROUPS))).lines()

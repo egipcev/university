@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
+import lombok.SneakyThrows;
 import ua.com.foxminded.model.Course;
 import ua.com.foxminded.model.Group;
 import ua.com.foxminded.model.Teacher;
@@ -25,6 +26,7 @@ class TimeTableItemDaoTest extends DaoBaseTest {
     private static final String LAST_NAME = "Trump";
 
     @Test
+    @SneakyThrows
     void testCreateTimeTableItem() {
         TimeTableItem timeTableItem = new TimeTableItem();
         Teacher teacher = new Teacher();
@@ -42,6 +44,7 @@ class TimeTableItemDaoTest extends DaoBaseTest {
     }
 
     @Test
+    @SneakyThrows
     void testGetDayTimeTablePerTeacher() {
         TimeTableItem timeTableOne = new TimeTableItem();
         TimeTableItem timeTableTwo = new TimeTableItem();

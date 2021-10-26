@@ -11,6 +11,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import config.TestConfig;
+import lombok.SneakyThrows;
 import ua.com.foxminded.controller.dao.CourseDao;
 import ua.com.foxminded.model.Course;
 
@@ -31,6 +32,7 @@ class CourseServiceImplTest {
     }
 
     @Test
+    @SneakyThrows
     void testGetCourseByName() {
         Course course = new Course(COURSE_NAME, COURSE_DESC);
         when(courseDao.getCourseByName(COURSE_NAME)).thenReturn(course);
