@@ -5,11 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import lombok.SneakyThrows;
+import ua.com.foxminded.controller.dao.TeacherDao;
+import ua.com.foxminded.controller.dao.TimeTableItemDao;
 import ua.com.foxminded.model.Course;
 import ua.com.foxminded.model.Group;
 import ua.com.foxminded.model.Teacher;
@@ -17,13 +19,19 @@ import ua.com.foxminded.model.TimeTableItem;
 
 class TimeTableItemDaoTest extends DaoBaseTest {
 
-    private static final String DATE = "2021-12-03";
+    private static final String DATE = "2022-12-03";
     private static final String START_TIME = "09:00";
     private static final String END_TIME = "09:45";
     private static final String COURSE_NAME = "Math";
     private static final String GROUP_NAME = "AA-11";
     private static final String FIRST_NAME = "Donald";
     private static final String LAST_NAME = "Trump";
+
+    @Autowired
+    private TimeTableItemDao timeTableItemDao;
+
+    @Autowired
+    private TeacherDao teacherDao;
 
     @Test
     @SneakyThrows
@@ -52,7 +60,6 @@ class TimeTableItemDaoTest extends DaoBaseTest {
         Teacher teacher = new Teacher();
         teacher.setFirstName("FIRST_NAME");
         teacher.setLastName("LAST_NAME");
-        teacher.setId(UUID.randomUUID().toString());
         teacherDao.create(teacher);
         timeTableOne.setDate(LocalDate.parse(DATE));
         timeTableOne.setStartTime(LocalTime.parse(START_TIME));

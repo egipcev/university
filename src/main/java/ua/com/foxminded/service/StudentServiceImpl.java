@@ -30,7 +30,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student getStudentById(String studentId) throws ServiceException {
+    public Student getStudentById(int studentId) throws ServiceException {
         Student student = null;
         try {
             log.info("fetching student from DB");
@@ -53,7 +53,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void deleteStudentById(String studentId) throws ServiceException {
+    public void deleteStudentById(int studentId) throws ServiceException {
         try {
             log.info("deleting student from DB");
             studentDao.deleteStudentById(studentId);
@@ -64,10 +64,10 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void updateStudentGroup(String studentNumber, String groupName) throws ServiceException {
+    public void updateStudentGroup(int id, String groupName) throws ServiceException {
         try {
             log.info("updating student in DB");
-            studentDao.updateStudentGroup(studentNumber, groupName);
+            studentDao.updateStudentGroup(id, groupName);
         } catch (DaoException e) {
             throw new ServiceException("error while updating student in DB", e);
         }

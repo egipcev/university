@@ -28,9 +28,8 @@ class StudentServiceImplTest extends BaseServiceTest {
     @Test
     @SneakyThrows
     void testGetStudentById() {
-        String STUDENT_ID = "1";
+        int STUDENT_ID = 1;
         Student student = new Student();
-        student.setId(STUDENT_ID);
         when(studentDao.getStudentById(STUDENT_ID)).thenReturn(student);
         assertEquals(student, service.getStudentById(STUDENT_ID));
     }

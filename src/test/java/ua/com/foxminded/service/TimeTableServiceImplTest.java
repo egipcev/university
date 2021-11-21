@@ -32,9 +32,7 @@ class TimeTableServiceImplTest extends BaseServiceTest {
     @SneakyThrows
     void testGetDayTimeTablePerTeacher() {
         List<TimeTableItem> list = new ArrayList<>();
-        String TEACHER_ID = "1";
         Teacher teacher = new Teacher();
-        teacher.setId(TEACHER_ID);
         LocalDate date = LocalDate.now();
 
         TimeTable timeTable = new TimeTable(list);

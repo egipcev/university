@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Timetables</title>
+</head>
+<body>
+	<table>
+		<tr>
+			<th>Id</th>
+			<th>Date</th>
+			<th>Start Time</th>
+			<th>End Time</th>
+			<th>Course</th>
+			<th>Group</th>
+			<th>Teacher</th>
+		</tr>
+		<tr th:each="timetable: ${timetables}">
+			<td th:text="${timetable.Id}" />
+			<td th:text="${timetable.getDate()}" />
+			<td th:text="${timetable.getStartTime()}" />
+			<td th:text="${timetable.getEndTime()}" />
+			<td th:text="${timetable.getCourse().getCourseName()}" />
+			<td th:text="${timetable.getGroup().getGroupName()}" />
+			<td
+				th:text="${timetable.getTeacher().getFirstName()} + ' ' + ${timetable.getTeacher().getLastName()}" />
+				
+			<td> <a th:href="@{/timetables/{id}/edit(id=${timetable.getId()})}">Edit </a> </td>
+			<td> <form th:method="DELETE" th:action="@{/timetables/{id}(id=${timetable.getId()})}" th:object="${timetable}"> <input
+            type="submit" value="Delete" />
+    </form></td>
+		</tr>
+	</table>
+	<br/>
+	<hr/>
+
+<a href="/timetables/new">Insert new time table record</a>
+
+</body>
+</html>

@@ -26,13 +26,12 @@ public class TeacherDao {
     public void insertTeachers(final List<Teacher> listTeachers) throws DaoException {
         log.debug("Inserting into TEACHERS table");
         try {
-            jdbcTemplate.batchUpdate("INSERT INTO teachers (first_name, last_name, teacher_number) VALUES (?, ?, ?)",
+            jdbcTemplate.batchUpdate("INSERT INTO teachers (first_name, last_name) VALUES (?, ?)",
                     new BatchPreparedStatementSetter() {
 
                         public void setValues(PreparedStatement ps, int i) throws SQLException {
                             ps.setString(1, listTeachers.get(i).getFirstName());
                             ps.setString(2, listTeachers.get(i).getLastName());
-                            ps.setString(3, listTeachers.get(i).getId());
 
                         }
 
@@ -52,40 +51,33 @@ public class TeacherDao {
         List<Teacher> listTeachers = new ArrayList<>();
 
         try {
-            log.debug("Inserting into TEACHERS table");
-            log.debug("select first_name, last_name, teacher_number from teachers");
-            listTeachers = jdbcTemplate.query("select first_name, last_name, teacher_number from teachers",
+            log.debug("Fetching from TEACHERS table");
+            log.debug("select first_name, last_name, teacher_id from teachers");
+            listTeachers = jdbcTemplate.query("select first_name, last_name, teacher_id from teachers",
                     (rs, rowNum) -> {
 
-                        Teacher teacher = new Teacher();
-                        teacher.setFirstName(rs.getString("first_name"));
-                        teacher.setLastName(rs.getString("last_name"));
-                        teacher.setId(rs.getString("teacher_number"));
-
-                        return teacher;
+                        return new Teacher(rs.getString("teacher_id"), rs.getString("first_name"),
+                                rs.getString("last_name"));
                     });
-            log.debug("Completed inserting into TEACHERS table without errors");
+            log.debug("Completed Fetching from TEACHERS table without errors");
         } catch (DataAccessException e) {
             throw new DaoException("error while inserting data into TEACHERS table", e);
         }
         return listTeachers;
     }
 
-    public Teacher getTeacherById(String id) throws DaoException {
+    public Teacher getTeacherById(int id) throws DaoException {
         Teacher teacher = null;
         try {
             log.debug("fetching data from TEACHERS table");
-            log.debug("select teachers.first_name, teachers.last_name, teachers.teacher_number from teachers\r\n"
-                    + " where teachers.teacher_number = {}", id);
+            log.debug("select teachers.first_name, teachers.last_name, teachers.teacher_id from teachers\r\n"
+                    + " where teachers.teacher_id = {}", id);
             teacher = jdbcTemplate.queryForObject(
-                    "select teachers.first_name, teachers.last_name, teachers.teacher_number from teachers\r\n"
-                            + " where teachers.teacher_number = ?",
+                    "select teachers.first_name, teachers.last_name, teachers.teacher_id from teachers\r\n"
+                            + " where teachers.teacher_id = ?",
                     new Object[] { id }, (rs, rowNum) -> {
-                        Teacher teach = new Teacher();
-                        teach.setId(rs.getString("teacher_number"));
-                        teach.setFirstName(rs.getString("first_name"));
-                        teach.setLastName(rs.getString("last_name"));
-                        return teach;
+                        return new Teacher(rs.getString("teacher_id"), rs.getString("first_name"),
+                                rs.getString("last_name"));
                     });
             log.debug("Completed fetching data from TEACHERS table");
         } catch (EmptyResultDataAccessException e) {
@@ -99,11 +91,11 @@ public class TeacherDao {
 
     }
 
-    public void deleteTeacherById(String id) throws DaoException {
+    public void deleteTeacherById(int id) throws DaoException {
         log.debug("deleting data in TEACHERS table");
-        log.debug("delete from teachers where teacher_number = {}", id);
+        log.debug("delete from teachers where teacher_id = {}", id);
         try {
-            jdbcTemplate.update("delete from teachers where teacher_number = ?", id);
+            jdbcTemplate.update("delete from teachers where teacher_id = ?", id);
             log.debug("Completed deleting in TEACHERS table");
         } catch (DataAccessException e) {
             throw new DaoException("error while deleting data from TEACHERS table", e);
@@ -113,11 +105,11 @@ public class TeacherDao {
 
     public void create(Teacher teacher) throws DaoException {
         log.debug("Inserting into TEACHERS table");
-        log.debug("INSERT INTO teachers (first_name, last_name, teacher_number) VALUES ({}, {}, {})",
-                teacher.getFirstName(), teacher.getLastName(), teacher.getId());
+        log.debug("INSERT INTO teachers (first_name, last_name) VALUES ({}, {})", teacher.getFirstName(),
+                teacher.getLastName());
         try {
-            jdbcTemplate.update("INSERT INTO teachers (first_name, last_name, teacher_number) VALUES (?, ?, ?)",
-                    teacher.getFirstName(), teacher.getLastName(), teacher.getId());
+            jdbcTemplate.update("INSERT INTO teachers (first_name, last_name) VALUES (?, ?)", teacher.getFirstName(),
+                    teacher.getLastName());
             log.debug("Completed inserting into TEACHERS table without errors");
         } catch (DataAccessException e) {
             throw new DaoException("error while inserting data into TEACHERS table", e);

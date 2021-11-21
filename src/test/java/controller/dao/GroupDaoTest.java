@@ -4,13 +4,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import lombok.SneakyThrows;
+import ua.com.foxminded.controller.dao.GroupDao;
 import ua.com.foxminded.model.Group;
 
 class GroupDaoTest extends DaoBaseTest {
 
     public static final String GROUP_NAME = "XX-00";
+
+    @Autowired
+    private GroupDao groupDao;
 
     @Test
     @SneakyThrows

@@ -1,0 +1,10 @@
+Math;Mathematics
+Biology;Biology
+Agriculture;Agriculture and Forestry
+Architecture;Architecture
+Economics;Economics
+Computer Science;Computer Science
+Electrical and Electronic Engineering;Electrical and Electronic Engineering
+History;History
+Law;Law
+Medicine;Medicine

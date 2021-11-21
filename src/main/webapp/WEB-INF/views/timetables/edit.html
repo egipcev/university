@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Update TimeTable</title>
+</head>
+<body>
+	<form th:method="PUT" th:action="@{/timetables/{id}(id=${timetable.getId()})}" th:object="${timetable}">
+		<label for="date">Enter date:</label>
+		<input type="date" required pattern="\d{4}-\d{2}-\d{2}"
+			th:field="*{date}" id="date" />
+		 <br />
+		 <label for="startTime">Update start time:</label>
+        <input type="time"
+            th:field="*{startTime}" id="startTime" />
+         <br />
+         <label for="endTime">Update end time:</label>
+        <input type="time"
+            th:field="*{endTime}" id="endTime" />
+         <br />
+		 <label for="groupName">Update group name:</label>
+         <input type="text"
+            th:field="*{group.groupName}" id="groupName" />
+         <br />
+         <label for="courseName">Update course name:</label>
+         <input type="text"
+            th:field="*{course.courseName}" id="courseName" />
+         <br />
+         
+		<select th:field="*{teacher}">
+			<option th:each="teacher: ${teachers}" th:value="${teacher.id}"
+				th:text="${teacher.getLastName()} + ' ' + ${teacher.getFirstName()}">Teacher</option>
+		</select>
+		<br />
+		 <input
+			type="submit" value="Update" />
+	</form>
+
+</body>
+</html>
+
+
+
+
