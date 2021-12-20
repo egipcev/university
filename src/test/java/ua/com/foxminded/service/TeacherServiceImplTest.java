@@ -25,9 +25,8 @@ class TeacherServiceImplTest extends BaseServiceTest {
     @Test
     @SneakyThrows
     void testGetTeacherById() {
-        String TEACHER_ID = "1";
+        int TEACHER_ID = 1;
         Teacher teacher = new Teacher();
-        teacher.setId(TEACHER_ID);
         when(teacherDao.getTeacherById(TEACHER_ID)).thenReturn(teacher);
         assertEquals(teacher, service.getTeacherById(TEACHER_ID));
     }

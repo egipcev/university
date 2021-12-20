@@ -1,0 +1,5 @@
+Donald;Trump
+Ivan;Ivanov
+Petr;Petrenko
+Vitalii;Klichko
+Sidor;Sidorov

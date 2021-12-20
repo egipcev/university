@@ -4,14 +4,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import lombok.SneakyThrows;
+import ua.com.foxminded.controller.dao.CourseDao;
 import ua.com.foxminded.model.Course;
 
 class CourseDaoTest extends DaoBaseTest {
 
     public static final String COURSE_NAME = "Test course";
     public static final String COURSE_DESC = "Test course description";
+
+    @Autowired
+    private CourseDao courseDao;
 
     @Test
     @SneakyThrows

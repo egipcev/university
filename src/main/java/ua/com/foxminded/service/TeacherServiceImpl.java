@@ -38,7 +38,7 @@ public class TeacherServiceImpl implements TeacherService {
         return listTeachers;
     }
 
-    public Teacher getTeacherById(String id) throws ServiceException {
+    public Teacher getTeacherById(int id) throws ServiceException {
         Teacher teacher = null;
         try {
             log.info("fetching teacher into DB");
@@ -49,7 +49,7 @@ public class TeacherServiceImpl implements TeacherService {
         return teacher;
     }
 
-    public void deleteTeacherById(String id) throws ServiceException {
+    public void deleteTeacherById(int id) throws ServiceException {
         try {
             log.info("deleting teacher in DB");
             teacherDao.deleteTeacherById(id);

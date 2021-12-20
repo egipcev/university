@@ -1,0 +1,4 @@
+2021-10-03;09:00;09:45;Math;AA-11;Sidor;Sidorov
+2021-10-03;10:00;10:45;Biology;AA-11;Donald;Trump
+2021-10-03;11:00;11:45;Biology;BB-22;Donald;Trump
+2021-10-04;09:00;09:45;Math;AA-11;Sidor;Sidorov

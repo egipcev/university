@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Student</title>
+</head>
+<body>
+	<p th:text="${student.getFirstName()} + ' ' + ${student.getLastName()}">VALUE</p>
+	<p th:text="${student.getId()}">VALUE</p>
+	<p th:text="${student.getGroup().getGroupName()}">VALUE</p>
+</body>
+</html>

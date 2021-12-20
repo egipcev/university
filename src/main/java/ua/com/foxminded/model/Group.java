@@ -1,18 +1,15 @@
 package ua.com.foxminded.model;
 
-import java.util.List;
-
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
 public class Group {
-    final String groupName;
-    List<Student> listStudents;
-    List<Course> listCourses;
-    TimeTable timeTable;
+    private String groupName;
 
 }

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+<meta charset="ISO-8859-1">
+<title>University</title>
+</head>
+
+<body>
+
+	<p>Welcome to the University application</p>
+
+	<a th:href="@{/students}" th:text="Students">students</a>
+
+	<a th:href="@{/teachers}" th:text="Teachers">teachers</a>
+	
+	<a th:href="@{/timetables}" th:text="Timetables">timetables</a>
+
+</body>
+
+</html>

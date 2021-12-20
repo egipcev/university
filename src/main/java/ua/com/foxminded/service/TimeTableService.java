@@ -14,4 +14,14 @@ public interface TimeTableService {
 
     public TimeTable getDayTimeTablePerTeacher(LocalDate date, Teacher teacher) throws ServiceException;
 
+    public List<TimeTableItem> getAllTimeTableItems() throws ServiceException;
+
+    public void createTimeTableRecord(TimeTableItem timeTableItem) throws ServiceException;
+
+    TimeTableItem getTimeTableItemById(int id) throws ServiceException;
+
+    void updateTimeTableRecord(int id, TimeTableItem timeTableItem) throws ServiceException;
+
+    void deleteTimeTableRecord(int id) throws ServiceException;
+
 }

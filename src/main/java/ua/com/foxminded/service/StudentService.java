@@ -9,13 +9,13 @@ public interface StudentService {
 
     public void createStudents(List<Student> listStudents) throws ServiceException;
 
-    public Student getStudentById(String studentId) throws ServiceException;
+    public Student getStudentById(int studentId) throws ServiceException;
 
     public void createStudent(Student student) throws ServiceException;
 
-    public void deleteStudentById(String studentId) throws ServiceException;
+    public void deleteStudentById(int studentId) throws ServiceException;
 
-    public void updateStudentGroup(String studentNumber, String groupName) throws ServiceException;
+    public void updateStudentGroup(int studentId, String groupName) throws ServiceException;
 
     public List<Student> getAllStudents() throws ServiceException;
 

@@ -21,8 +21,6 @@ import ua.com.foxminded.model.Student;
 @Slf4j
 public class StudentDao {
 
-//    public static final Logger log = LoggerFactory.getLogger("ua.com.foxminded");
-
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -30,47 +28,45 @@ public class StudentDao {
         List<Student> listStudent = new ArrayList<>();
 
         try {
-            log.debug("Inserting into students table");
+            log.debug("fetching from students table");
             log.debug(
-                    "select students.first_name, students.last_name, groups.group_name from students inner join groups on students.group_id = groups.group_id");
-            listStudent = jdbcTemplate
-                    .query("select students.first_name, students.last_name, groups.group_name from students\r\n"
-                            + "inner join groups on students.group_id = groups.group_id", (rs, rowNum) -> {
-                                Group group = new Group(rs.getString("group_name"));
-                                Student student = new Student();
-                                student.setFirstName(rs.getString("first_name"));
-                                student.setLastName(rs.getString("last_name"));
-                                student.setGroup(group);
-                                return student;
-                            });
-            log.debug("Completed inserting into students table without errors");
+                    "select students.student_id, students.first_name, students.last_name, students.student_id, groups.group_name from students inner join groups on students.group_id = groups.group_id");
+            listStudent = jdbcTemplate.query(
+                    "select students.first_name, students.last_name, students.student_id, groups.group_name from students\r\n"
+                            + "inner join groups on students.group_id = groups.group_id",
+                    (rs, rowNum) -> {
+                        Group group = new Group(rs.getString("group_name"));
+                        Student student = new Student(rs.getString("student_id"), rs.getString("first_name"),
+                                rs.getString("last_name"));
+                        student.setGroup(group);
+                        return student;
+                    });
+            log.debug("Completed fetching from students table without errors");
         } catch (DataAccessException e) {
-            throw new DaoException("error while inserting data into students table", e);
+            throw new DaoException("error while fetching data from students table", e);
         }
 
         return listStudent;
     }
 
-    public Student getStudentById(String id) throws DaoException {
+    public Student getStudentById(int id) throws DaoException {
         Student student = null;
 
         try {
             log.debug("fetching data from STUDENTS table");
             log.info(
-                    "select students.first_name, students.last_name, students.student_number, groups.group_name from students\r\n"
+                    "select students.first_name, students.last_name, students.student_id, groups.group_name from students\r\n"
                             + "inner join groups on students.group_id = groups.group_id\r\n"
-                            + "where students.student_number = {}",
+                            + "where students.student_id = {}",
                     id);
             student = jdbcTemplate.queryForObject(
-                    "select students.first_name, students.last_name, students.student_number, groups.group_name from students\r\n"
+                    "select students.first_name, students.last_name, students.student_id, groups.group_name from students\r\n"
                             + "inner join groups on students.group_id = groups.group_id\r\n"
-                            + " where students.student_number = ?",
+                            + " where students.student_id = ?",
                     new Object[] { id }, (rs, rowNum) -> {
                         Group group = new Group(rs.getString("group_name"));
-                        Student stud = new Student();
-                        stud.setId(rs.getString("student_number"));
-                        stud.setFirstName(rs.getString("first_name"));
-                        stud.setLastName(rs.getString("last_name"));
+                        Student stud = new Student(rs.getString("student_id"), rs.getString("first_name"),
+                                rs.getString("last_name"));
                         stud.setGroup(group);
                         return stud;
                     });
@@ -86,11 +82,11 @@ public class StudentDao {
 
     }
 
-    public void deleteStudentById(String id) throws DaoException {
+    public void deleteStudentById(int id) throws DaoException {
         log.debug("deleting data in STUDENTS table");
-        log.debug("delete from students where student_number = {}", id);
+        log.debug("delete from students where student_id = {}", id);
         try {
-            jdbcTemplate.update("delete from students where student_number = ?", id);
+            jdbcTemplate.update("delete from students where student_id = ?", id);
             log.debug("Completed deleting in STUDENTS table");
         } catch (DataAccessException e) {
             throw new DaoException("error while deleting data from STUDENTS table", e);
@@ -98,15 +94,15 @@ public class StudentDao {
 
     }
 
-    public void updateStudentGroup(String studentNumber, String groupName) throws DaoException {
+    public void updateStudentGroup(int id, String groupName) throws DaoException {
         log.debug("updating data in STUDENTS table");
         log.debug("update students\r\n"
                 + "set students.group_id = (select groups.group_id from groups where groups.group_name = {})\r\n"
-                + "where students.student_number = {}", groupName, studentNumber);
+                + "where students.student_id = {}", groupName, id);
         try {
             jdbcTemplate.update("update students\r\n"
                     + "set students.group_id = (select groups.group_id from groups where groups.group_name = ?)\r\n"
-                    + "where students.student_number = ?", groupName, studentNumber);
+                    + "where students.student_id = ?", groupName, id);
         } catch (DataAccessException e) {
             throw new DaoException("error while updating data in STUDENTS table", e);
         }
@@ -116,12 +112,12 @@ public class StudentDao {
     public void create(Student student) throws DaoException {
         log.debug("Inserting into STUDENTS table");
         log.debug(
-                "INSERT INTO students (first_name, last_name, student_number, group_id) SELECT {}, {}, {}, group_id from GROUPS where group_name = {}",
-                student.getFirstName(), student.getLastName(), student.getId(), student.getGroup().getGroupName());
+                "INSERT INTO students (first_name, last_name, group_id) SELECT {}, {}, group_id from GROUPS where group_name = {}",
+                student.getFirstName(), student.getLastName(), student.getGroup().getGroupName());
         try {
             jdbcTemplate.update(
-                    "INSERT INTO students (first_name, last_name, student_number, group_id) SELECT ?, ?, ?, group_id from GROUPS where group_name = ?",
-                    student.getFirstName(), student.getLastName(), student.getId(), student.getGroup().getGroupName());
+                    "INSERT INTO students (first_name, last_name, group_id) SELECT ?, ?, group_id from GROUPS where group_name = ?",
+                    student.getFirstName(), student.getLastName(), student.getGroup().getGroupName());
             log.debug("Completed inserting into STUDENTS table without errors");
         } catch (DataAccessException e) {
             throw new DaoException("error while inserting data into STUDENTS table", e);
@@ -133,15 +129,14 @@ public class StudentDao {
         log.debug("Inserting into STUDENTS table");
         try {
             jdbcTemplate.batchUpdate(
-                    "INSERT INTO students (first_name, last_name, student_number, group_id) SELECT ?, ?, ?, group_id from GROUPS where group_name = ?",
+                    "INSERT INTO students (first_name, last_name, group_id) SELECT ?, ?, group_id from GROUPS where group_name = ?",
                     new BatchPreparedStatementSetter() {
 
                         public void setValues(PreparedStatement ps, int i) throws SQLException {
 
                             ps.setString(1, listStudents.get(i).getFirstName());
                             ps.setString(2, listStudents.get(i).getLastName());
-                            ps.setString(3, listStudents.get(i).getId());
-                            ps.setObject(4, listStudents.get(i).getGroup().getGroupName());
+                            ps.setObject(3, listStudents.get(i).getGroup().getGroupName());
 
                         }
 

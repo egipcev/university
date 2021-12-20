@@ -9,10 +9,12 @@ public interface TeacherService {
 
     public void createTeachers(final List<Teacher> listTeachers) throws ServiceException;
 
-    public Teacher getTeacherById(String id) throws ServiceException;
+    public Teacher getTeacherById(int id) throws ServiceException;
 
-    public void deleteTeacherById(String id) throws ServiceException;
+    public void deleteTeacherById(int id) throws ServiceException;
 
     public void createTeacher(Teacher teacher) throws ServiceException;
+
+    public List<Teacher> getAllTeachers() throws ServiceException;
 
 }
