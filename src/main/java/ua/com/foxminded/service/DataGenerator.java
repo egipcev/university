@@ -9,7 +9,8 @@ import java.time.LocalTime;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.apache.commons.dbcp2.BasicDataSource;
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -49,7 +50,7 @@ public class DataGenerator {
     private static final int TIME_TABLE_TEACHER_LAST_NAME_INDEX = 6;
 
     @Autowired
-    private BasicDataSource dataSource;
+    private DataSource dataSource;
 
     @Autowired
     private StudentDao studentDao;
