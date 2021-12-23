@@ -48,6 +48,7 @@ public class TestIntegration {
     public void setup() throws Exception {
 
         mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
+
         dataGenerator.createTables();
         dataGenerator.createTestData();
     }

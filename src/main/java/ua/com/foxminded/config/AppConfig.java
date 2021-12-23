@@ -1,8 +1,11 @@
 package ua.com.foxminded.config;
 
-import org.apache.commons.dbcp2.BasicDataSource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -29,34 +32,16 @@ public class AppConfig implements WebMvcConfigurer {
         this.applicationContext = applicationContext;
     }
 
-    @Value("${url}")
-    private String url;
-
-    @Value("${user}")
-    private String user;
-
-    @Value("${password}")
-    private String password;
-
-    @Value("${driver}")
-    private String driver;
-
     @Bean
-    BasicDataSource dataSource() {
+    DataSource dataSource() throws NamingException {
 
-        BasicDataSource ds = new BasicDataSource();
-        ds.setDriverClassName(driver);
-        ds.setUrl(url);
-        ds.setUsername(user);
-        ds.setPassword(password);
-        ds.setMinIdle(5);
-        ds.setMaxIdle(10);
-        ds.setMaxOpenPreparedStatements(100);
-        return ds;
+        Context context = new InitialContext();
+        return (DataSource) context.lookup("java:/comp/env/jdbc/schoolapp");
+
     }
 
     @Bean
-    public JdbcTemplate jdbcTemplate() {
+    public JdbcTemplate jdbcTemplate() throws NamingException {
         return new JdbcTemplate(dataSource());
     }
 
