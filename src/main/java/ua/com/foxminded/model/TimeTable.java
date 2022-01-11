@@ -5,11 +5,12 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import ua.com.foxminded.model.entity.TimeTableItemEntity;
 
 @Getter
 @Setter
 @AllArgsConstructor
 public class TimeTable {
 
-    private List<TimeTableItem> listItems;
+    private List<TimeTableItemEntity> listItems;
 }

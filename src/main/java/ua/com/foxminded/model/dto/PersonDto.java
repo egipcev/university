@@ -1,20 +1,24 @@
-package ua.com.foxminded.model;
+package ua.com.foxminded.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @RequiredArgsConstructor
-public abstract class Person {
+public abstract class PersonDto {
 
-    private final String id;
+    protected PersonDto(Integer id) {
+        this.id = id;
+    }
+
+    private int id;
+
     private String firstName;
+
     private String lastName;
 
 }

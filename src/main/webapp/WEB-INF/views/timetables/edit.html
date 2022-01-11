@@ -18,20 +18,24 @@
         <input type="time"
             th:field="*{endTime}" id="endTime" />
          <br />
-		 <label for="groupName">Update group name:</label>
-         <input type="text"
-            th:field="*{group.groupName}" id="groupName" />
-         <br />
-         <label for="courseName">Update course name:</label>
-         <input type="text"
-            th:field="*{course.courseName}" id="courseName" />
-         <br />
-         
-		<select th:field="*{teacher}">
-			<option th:each="teacher: ${teachers}" th:value="${teacher.id}"
-				th:text="${teacher.getLastName()} + ' ' + ${teacher.getFirstName()}">Teacher</option>
-		</select>
-		<br />
+		 <label for="groupName">Select group name:</label>
+         <select th:field="*{group}" id="groupName">
+            <option th:each="group: ${groups}" th:value="${group.id}"
+                th:text="${group.getGroupName()}">Group</option>
+        </select>
+        <br />
+         <label for="courseName">Select course name:</label>
+         <select th:field="*{course}" id="courseName">
+            <option th:each="course: ${courses}" th:value="${course.id}"
+                th:text="${course.getCourseDescription()}">Course</option>
+        </select>
+        <br />
+         <label for="teacher">Select teacher:</label>
+        <select th:field="*{teacher}" id="teacher">
+            <option th:each="teacher: ${teachers}" th:value="${teacher.id}"
+                th:text="${teacher.getLastName()} + ' ' + ${teacher.getFirstName()}">Teacher</option>
+        </select>
+        <br />
 		 <input
 			type="submit" value="Update" />
 	</form>

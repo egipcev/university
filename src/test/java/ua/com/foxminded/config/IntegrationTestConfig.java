@@ -1,4 +1,4 @@
-package config;
+package ua.com.foxminded.config;
 
 import java.util.Properties;
 
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.mock.jndi.SimpleNamingContextBuilder;
 
@@ -42,11 +41,6 @@ public class IntegrationTestConfig {
 
         context.bind("java:comp/env/jdbc/datasource", new DriverManagerDataSource(url, prop));
         return (DataSource) context.lookup("java:comp/env/jdbc/datasource");
-    }
-
-    @Bean
-    public JdbcTemplate jdbcTemplate() throws IllegalStateException, NamingException {
-        return new JdbcTemplate(dataSource());
     }
 
 }

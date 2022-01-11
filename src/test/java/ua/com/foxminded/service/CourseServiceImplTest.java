@@ -4,39 +4,31 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
-import config.TestConfig;
 import lombok.SneakyThrows;
 import ua.com.foxminded.controller.dao.CourseDao;
-import ua.com.foxminded.model.Course;
+import ua.com.foxminded.model.entity.CourseEntity;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = TestConfig.class, loader = AnnotationConfigContextLoader.class)
-class CourseServiceImplTest {
-
-    public static final String COURSE_NAME = "Test course";
-    public static final String COURSE_DESC = "Test course description";
+class CourseServiceImplTest extends BaseServiceTest {
 
     private final CourseServiceImpl service;
     private final CourseDao courseDao;
+    private final CourseEntity courseEntity;
 
     @Autowired
-    public CourseServiceImplTest(CourseServiceImpl service, CourseDao courseDao) {
+    public CourseServiceImplTest(CourseServiceImpl service, CourseDao courseDao, CourseEntity courseEntity) {
         this.service = service;
         this.courseDao = courseDao;
+        this.courseEntity = courseEntity;
     }
 
     @Test
     @SneakyThrows
     void testGetCourseByName() {
-        Course course = new Course(COURSE_NAME, COURSE_DESC);
-        when(courseDao.getCourseByName(COURSE_NAME)).thenReturn(course);
-        assertEquals(course, service.getCourseByName(COURSE_NAME));
+        courseEntity.setId(1);
+        when(courseDao.getById(1)).thenReturn(courseEntity);
+        assertEquals(courseEntity, service.getCourseById(1));
     }
 
 }

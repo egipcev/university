@@ -1,4 +1,4 @@
-package integration;
+package ua.com.foxminded.integration;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -22,10 +22,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import config.IntegrationTestConfig;
 import lombok.SneakyThrows;
-import ua.com.foxminded.controller.dao.StudentDao;
-import ua.com.foxminded.model.Student;
+import ua.com.foxminded.config.IntegrationTestConfig;
+import ua.com.foxminded.controller.dao.Dao;
+import ua.com.foxminded.model.entity.StudentEntity;
 import ua.com.foxminded.service.DataGenerator;
 
 @ExtendWith(SpringExtension.class)
@@ -39,14 +39,13 @@ public class TestIntegration {
     private WebApplicationContext webApplicationContext;
 
     @Autowired
-    private StudentDao studentDao;
+    private Dao<StudentEntity> studentDao;
 
     @Autowired
     protected DataGenerator dataGenerator;
 
     @BeforeEach
     public void setup() throws Exception {
-
         mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
 
         dataGenerator.createTables();
@@ -57,14 +56,14 @@ public class TestIntegration {
     @SneakyThrows
     public void getStudentsShouldReturnModelAttributeAndView() {
         mockMvc.perform(get("/students")).andExpect(view().name("students/index"))
-                .andExpect(model().attribute("students", Matchers.hasSize(studentDao.getAllStudents().size())));
+                .andExpect(model().attribute("students", Matchers.hasSize(studentDao.getAll().size())));
 
     }
 
     @Test
     @SneakyThrows
     public void getStudentShouldReturnModelAttributeAndView() {
-        Student student = studentDao.getAllStudents().get(0);
+        StudentEntity student = studentDao.getAll().get(0);
         mockMvc.perform(get("/students/{id}", student.getId())).andExpect(view().name("students/student"))
                 .andExpect(model().attributeExists("student"));
     }

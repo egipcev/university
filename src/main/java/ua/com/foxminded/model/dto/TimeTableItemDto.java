@@ -1,4 +1,4 @@
-package ua.com.foxminded.model;
+package ua.com.foxminded.model.dto;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TimeTableItem {
+public class TimeTableItemDto {
 
     private int id;
 
@@ -23,7 +23,9 @@ public class TimeTableItem {
     @DateTimeFormat(pattern = "HH:mm")
     private LocalTime endTime;
 
-    private Course course;
-    private Group group;
-    private Teacher teacher;
+    private CourseDto course;
+
+    private GroupDto group;
+
+    private TeacherDto teacher;
 }

@@ -6,65 +6,43 @@ import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ua.com.foxminded.controller.dao.TeacherDao;
-import ua.com.foxminded.controller.exception.DaoException;
+import ua.com.foxminded.controller.dao.Dao;
 import ua.com.foxminded.controller.exception.ServiceException;
-import ua.com.foxminded.model.Teacher;
+import ua.com.foxminded.model.entity.TeacherEntity;
 
 @Service
 @AllArgsConstructor
 @Slf4j
 public class TeacherServiceImpl implements TeacherService {
 
-    private TeacherDao teacherDao;
+    private Dao<TeacherEntity> teacherDao;
 
-    public void createTeachers(final List<Teacher> listTeachers) throws ServiceException {
-        try {
-            log.info("inserting teachers into DB");
-            teacherDao.insertTeachers(listTeachers);
-        } catch (DaoException e) {
-            throw new ServiceException("error while inserting teachers into DB", e);
-        }
+    public void createTeachers(final List<TeacherEntity> listTeachers) throws ServiceException {
+        log.info("inserting teachers into DB");
+        teacherDao.saveAll(listTeachers);
     }
 
-    public List<Teacher> getAllTeachers() throws ServiceException {
-        List<Teacher> listTeachers = null;
-        try {
-            log.info("fetching teachers from DB");
-            listTeachers = teacherDao.getAllTeachers();
-        } catch (DaoException e) {
-            throw new ServiceException("error while fetching teachers from DB", e);
-        }
-        return listTeachers;
+    public List<TeacherEntity> getAllTeachers() throws ServiceException {
+
+        log.info("fetching teachers from DB");
+        return teacherDao.getAll();
     }
 
-    public Teacher getTeacherById(int id) throws ServiceException {
-        Teacher teacher = null;
-        try {
-            log.info("fetching teacher into DB");
-            teacher = teacherDao.getTeacherById(id);
-        } catch (DaoException e) {
-            throw new ServiceException("error while fetching teacher into DB", e);
-        }
+    public TeacherEntity getTeacherById(int id) throws ServiceException {
+        TeacherEntity teacher = null;
+        log.info("fetching teacher into DB");
+        teacher = teacherDao.getById(id);
         return teacher;
     }
 
     public void deleteTeacherById(int id) throws ServiceException {
-        try {
-            log.info("deleting teacher in DB");
-            teacherDao.deleteTeacherById(id);
-        } catch (DaoException e) {
-            throw new ServiceException("error while deleting teacher in DB", e);
-        }
+        log.info("deleting teacher in DB");
+        teacherDao.remove(id);
     }
 
-    public void createTeacher(Teacher teacher) throws ServiceException {
-        try {
-            log.info("inserting teacher into DB");
-            teacherDao.create(teacher);
-        } catch (DaoException e) {
-            throw new ServiceException("error while inserting teacher into DB", e);
-        }
+    public void createTeacher(TeacherEntity teacher) throws ServiceException {
+        log.info("inserting teacher into DB");
+        teacherDao.save(teacher);
     }
 
 }

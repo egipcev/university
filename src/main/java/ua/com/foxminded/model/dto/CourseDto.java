@@ -1,16 +1,21 @@
-package ua.com.foxminded.model;
+package ua.com.foxminded.model.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class Course {
+public class CourseDto {
+
+    private int id;
 
     private String courseName;
+
     private String courseDescription;
+
+    public CourseDto(String id) {
+        this.id = Integer.valueOf(id);
+    }
 }
