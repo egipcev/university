@@ -1,5 +1,8 @@
 package ua.com.foxminded.controller;
 
+import java.util.stream.Collectors;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,7 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ua.com.foxminded.controller.exception.ServiceException;
-import ua.com.foxminded.model.TimeTableItem;
+import ua.com.foxminded.model.dto.CourseDto;
+import ua.com.foxminded.model.dto.GroupDto;
+import ua.com.foxminded.model.dto.TeacherDto;
+import ua.com.foxminded.model.dto.TimeTableItemDto;
+import ua.com.foxminded.model.entity.TimeTableItemEntity;
+import ua.com.foxminded.service.CourseService;
+import ua.com.foxminded.service.GroupService;
 import ua.com.foxminded.service.TeacherService;
 import ua.com.foxminded.service.TimeTableService;
 
@@ -25,6 +34,9 @@ public class TimeTableController {
 
     private TimeTableService timeTableService;
     private TeacherService teacherService;
+    private CourseService courseService;
+    private GroupService groupService;
+    private ModelMapper modelMapper;
 
     @GetMapping()
     public String getTimeTables(Model model) {
@@ -38,19 +50,26 @@ public class TimeTableController {
 
     @GetMapping("/new")
     public String newTimeTable(Model model) {
-        model.addAttribute("timetable", new TimeTableItem());
+        model.addAttribute("timetable", new TimeTableItemDto());
         try {
-            model.addAttribute("teachers", teacherService.getAllTeachers());
+            model.addAttribute("teachers",
+                    teacherService.getAllTeachers().stream()
+                            .map(teacherEntity -> modelMapper.map(teacherEntity, TeacherDto.class))
+                            .collect(Collectors.toList()));
+            model.addAttribute("courses", courseService.getAllCourses().stream()
+                    .map(courseEntity -> modelMapper.map(courseEntity, CourseDto.class)).collect(Collectors.toList()));
+            model.addAttribute("groups", groupService.getAllGroups().stream()
+                    .map(groupEntity -> modelMapper.map(groupEntity, GroupDto.class)).collect(Collectors.toList()));
         } catch (ServiceException e) {
-            log.error("error reading teachers", e);
+            log.error("error reading teachers/courses/groups", e);
         }
         return "timetables/new";
     }
 
     @PostMapping
-    public String create(@ModelAttribute("timetable") TimeTableItem timeTableItem) {
+    public String create(@ModelAttribute("timetable") TimeTableItemDto timeTableItem) {
         try {
-            timeTableService.createTimeTableRecord(timeTableItem);
+            timeTableService.createTimeTableRecord(modelMapper.map(timeTableItem, TimeTableItemEntity.class));
         } catch (ServiceException e) {
             log.error("error creating time table", e);
         }
@@ -65,17 +84,24 @@ public class TimeTableController {
             log.error("error reading time table", e);
         }
         try {
-            model.addAttribute("teachers", teacherService.getAllTeachers());
+            model.addAttribute("teachers",
+                    teacherService.getAllTeachers().stream()
+                            .map(teacherEntity -> modelMapper.map(teacherEntity, TeacherDto.class))
+                            .collect(Collectors.toList()));
+            model.addAttribute("courses", courseService.getAllCourses().stream()
+                    .map(courseEntity -> modelMapper.map(courseEntity, CourseDto.class)).collect(Collectors.toList()));
+            model.addAttribute("groups", groupService.getAllGroups().stream()
+                    .map(groupEntity -> modelMapper.map(groupEntity, GroupDto.class)).collect(Collectors.toList()));
         } catch (ServiceException e) {
-            log.error("error reading teachers", e);
+            log.error("error reading teachers/courses/groups", e);
         }
         return "timetables/edit";
     }
 
     @PutMapping("/{id}")
-    public String update(@ModelAttribute("timetable") TimeTableItem timeTableItem, @PathVariable("id") int id) {
+    public String update(@ModelAttribute("timetable") TimeTableItemDto timeTableItem) {
         try {
-            timeTableService.updateTimeTableRecord(id, timeTableItem);
+            timeTableService.updateTimeTableRecord(modelMapper.map(timeTableItem, TimeTableItemEntity.class));
         } catch (ServiceException e) {
             log.error("error updating time table", e);
         }

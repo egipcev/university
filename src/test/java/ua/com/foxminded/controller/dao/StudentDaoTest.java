@@ -1,4 +1,4 @@
-package controller.dao;
+package ua.com.foxminded.controller.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -7,9 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import lombok.SneakyThrows;
-import ua.com.foxminded.controller.dao.StudentDao;
-import ua.com.foxminded.model.Group;
-import ua.com.foxminded.model.Student;
+import ua.com.foxminded.model.entity.GroupEntity;
+import ua.com.foxminded.model.entity.StudentEntity;
 
 class StudentDaoTest extends DaoBaseTest {
 
@@ -23,12 +22,14 @@ class StudentDaoTest extends DaoBaseTest {
     @Test
     @SneakyThrows
     void testCreateStudent() {
-        Student newStudent = new Student();
+        StudentEntity newStudent = new StudentEntity();
         newStudent.setFirstName(FIRST_NAME);
         newStudent.setLastName(LAST_NAME);
-        newStudent.setGroup(new Group(GROUP_NAME));
-        studentDao.create(newStudent);
-        Student student = studentDao.getStudentById(Integer.parseInt(newStudent.getId()));
+        GroupEntity groupEntity = new GroupEntity();
+        groupEntity.setGroupName(GROUP_NAME);
+        newStudent.setGroup(groupEntity);
+        studentDao.save(newStudent);
+        StudentEntity student = studentDao.getById(newStudent.getId());
         assertEquals(FIRST_NAME, student.getFirstName());
         assertEquals(LAST_NAME, student.getLastName());
         assertEquals(GROUP_NAME, student.getGroup().getGroupName());
@@ -37,31 +38,36 @@ class StudentDaoTest extends DaoBaseTest {
     @Test
     @SneakyThrows
     void testDeleteStudent() {
-        Student newStudent = new Student();
+        StudentEntity newStudent = new StudentEntity();
         newStudent.setFirstName(FIRST_NAME);
         newStudent.setLastName(LAST_NAME);
-        newStudent.setGroup(new Group(GROUP_NAME));
-        studentDao.create(newStudent);
-        Student student = studentDao.getStudentById(Integer.parseInt(newStudent.getId()));
+        GroupEntity groupEntity = new GroupEntity();
+        groupEntity.setGroupName(GROUP_NAME);
+        newStudent.setGroup(groupEntity);
+        studentDao.save(newStudent);
+        StudentEntity student = studentDao.getById(newStudent.getId());
         assertEquals(FIRST_NAME, student.getFirstName());
         assertEquals(LAST_NAME, student.getLastName());
         assertEquals(GROUP_NAME, student.getGroup().getGroupName());
-        studentDao.deleteStudentById(Integer.parseInt(newStudent.getId()));
-        assertNull(studentDao.getStudentById(Integer.parseInt(newStudent.getId())));
+        studentDao.remove(newStudent.getId());
+        assertNull(studentDao.getById(newStudent.getId()));
 
     }
 
     @Test
     @SneakyThrows
     void testUpdateStudent() {
-        Student newStudent = new Student();
+        StudentEntity newStudent = new StudentEntity();
         newStudent.setFirstName(FIRST_NAME);
         newStudent.setLastName(LAST_NAME);
-        newStudent.setGroup(new Group(GROUP_NAME));
-        studentDao.create(newStudent);
-        studentDao.updateStudentGroup(Integer.parseInt(newStudent.getId()), "BB-22");
-        assertEquals("BB-22",
-                studentDao.getStudentById(Integer.parseInt(newStudent.getId())).getGroup().getGroupName());
+        GroupEntity groupEntity = new GroupEntity();
+        groupEntity.setGroupName(GROUP_NAME);
+        newStudent.setGroup(groupEntity);
+        studentDao.save(newStudent);
+        groupEntity.setGroupName("BB-22");
+        newStudent.setGroup(groupEntity);
+        studentDao.update(newStudent);
+        assertEquals("BB-22", studentDao.getById(newStudent.getId()).getGroup().getGroupName());
 
     }
 

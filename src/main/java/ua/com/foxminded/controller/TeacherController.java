@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ua.com.foxminded.controller.exception.ServiceException;
-import ua.com.foxminded.model.Teacher;
+import ua.com.foxminded.model.entity.TeacherEntity;
 import ua.com.foxminded.service.TeacherService;
 
 @Slf4j
@@ -44,12 +44,12 @@ public class TeacherController {
 
     @GetMapping("/new")
     public String newTeacher(Model model) {
-        model.addAttribute("teacher", new Teacher());
+        model.addAttribute("teacher", new TeacherEntity());
         return "teachers/new";
     }
 
     @PostMapping
-    public String create(@ModelAttribute("teacher") Teacher teacher) {
+    public String create(@ModelAttribute("teacher") TeacherEntity teacher) {
         try {
             teacherService.createTeacher(teacher);
         } catch (ServiceException e) {

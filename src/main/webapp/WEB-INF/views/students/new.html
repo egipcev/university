@@ -14,10 +14,12 @@
         <input type="text"
             th:field="*{lastName}" id="lastName" />
          <br />
-		 <label for="groupName">Enter group name:</label>
-         <input type="text"
-            th:field="*{group}" id="groupName" />
-         <br /> 
+		  <label for="groupName">Select group name:</label>
+         <select th:field="*{group}" id="groupName">
+            <option th:each="group: ${groups}" th:value="${group.id}"
+                th:text="${group.getGroupName()}">Group</option>
+        </select>
+        <br />
 		 <input
 			type="submit" value="Create" />
 	</form>

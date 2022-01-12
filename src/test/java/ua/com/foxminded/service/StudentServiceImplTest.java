@@ -11,40 +11,42 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import lombok.SneakyThrows;
 import ua.com.foxminded.controller.dao.StudentDao;
-import ua.com.foxminded.model.Student;
+import ua.com.foxminded.model.entity.StudentEntity;
 
 class StudentServiceImplTest extends BaseServiceTest {
 
     private StudentDao studentDao;
-
     private StudentServiceImpl service;
+    private StudentEntity studentEntityOne;
+    private StudentEntity studentEntityTwo;
 
     @Autowired
-    public StudentServiceImplTest(StudentDao studentDao, StudentServiceImpl service) {
+    public StudentServiceImplTest(StudentDao studentDao, StudentServiceImpl service, StudentEntity studentEntity,
+            StudentEntity studentEntityTwo) {
         this.studentDao = studentDao;
         this.service = service;
+        this.studentEntityOne = studentEntity;
+        this.studentEntityTwo = studentEntityTwo;
     }
 
     @Test
     @SneakyThrows
     void testGetStudentById() {
         int STUDENT_ID = 1;
-        Student student = new Student();
-        when(studentDao.getStudentById(STUDENT_ID)).thenReturn(student);
-        assertEquals(student, service.getStudentById(STUDENT_ID));
+        studentEntityOne.setId(STUDENT_ID);
+        when(studentDao.getById(STUDENT_ID)).thenReturn(studentEntityOne);
+        assertEquals(studentEntityOne, service.getStudentById(STUDENT_ID));
     }
 
     @Test
     @SneakyThrows
     void testGetAllStudents() {
-        Student studentOne = new Student();
-        Student studentTwo = new Student();
-        List<Student> listStudents = new ArrayList<>();
-        studentOne.setFirstName("ONE");
-        studentTwo.setFirstName("TWO");
-        listStudents.add(studentOne);
-        listStudents.add(studentTwo);
-        when(studentDao.getAllStudents()).thenReturn(listStudents);
+        List<StudentEntity> listStudents = new ArrayList<>();
+        studentEntityOne.setFirstName("ONE");
+        studentEntityTwo.setFirstName("TWO");
+        listStudents.add(studentEntityOne);
+        listStudents.add(studentEntityTwo);
+        when(studentDao.getAll()).thenReturn(listStudents);
         assertEquals(listStudents, service.getAllStudents());
     }
 

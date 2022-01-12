@@ -6,61 +6,49 @@ import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ua.com.foxminded.controller.dao.CourseDao;
-import ua.com.foxminded.controller.exception.DaoException;
+import ua.com.foxminded.controller.dao.Dao;
 import ua.com.foxminded.controller.exception.ServiceException;
-import ua.com.foxminded.model.Course;
+import ua.com.foxminded.model.entity.CourseEntity;
 
 @Service
 @AllArgsConstructor
 @Slf4j
 public class CourseServiceImpl implements CourseService {
 
-    private CourseDao courseDao;
+    private Dao<CourseEntity> courseDao;
 
     @Override
-    public void createCourses(List<Course> listCourses) throws ServiceException {
-        try {
-            log.info("inserting courses into DB");
-            courseDao.insertCourses(listCourses);
-        } catch (DaoException e) {
-            throw new ServiceException("error while inserting courses into DB", e);
-        }
+    public void createCourses(List<CourseEntity> listCourses) throws ServiceException {
+        log.info("inserting courses into DB");
+        courseDao.saveAll(listCourses);
 
     }
 
     @Override
-    public void createCourse(Course course) throws ServiceException {
-        try {
-            log.info("inserting course into DB");
-            courseDao.create(course);
-        } catch (DaoException e) {
-            throw new ServiceException("error while inserting course into DB", e);
-        }
+    public void createCourse(CourseEntity course) throws ServiceException {
+        log.info("inserting course into DB");
+        courseDao.save(course);
 
     }
 
     @Override
-    public void deleteCourseByName(String courseName) throws ServiceException {
-        try {
-            log.info("deleting course from DB");
-            courseDao.deleteCourseByName(courseName);
-        } catch (DaoException e) {
-            throw new ServiceException("error while deleting course from DB", e);
-        }
+    public List<CourseEntity> getAllCourses() throws ServiceException {
+
+        log.info("fetching Courses from DB");
+        return courseDao.getAll();
+    }
+
+    @Override
+    public void deleteCourseById(int id) throws ServiceException {
+        log.info("deleting course from DB");
+        courseDao.remove(id);
 
     }
 
     @Override
-    public Course getCourseByName(String courseName) throws ServiceException {
-        Course course = null;
-        try {
-            log.info("fetching course from DB");
-            course = courseDao.getCourseByName(courseName);
-        } catch (DaoException e) {
-            throw new ServiceException("error while fetching course from DB", e);
-        }
-        return course;
+    public CourseEntity getCourseById(int id) throws ServiceException {
+        log.info("fetching course from DB");
+        return courseDao.getById(id);
     }
 
 }
