@@ -29,11 +29,6 @@ public abstract class JpaDao<E> implements Dao<E> {
 
     }
 
-    public void saveOrUpdate(E entity) {
-        this.entityManager.merge(entity);
-        this.entityManager.persist(entity);
-    }
-
     public void save(E entity) {
         this.entityManager.persist(entity);
     }
