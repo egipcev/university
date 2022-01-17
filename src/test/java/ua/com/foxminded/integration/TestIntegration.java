@@ -14,13 +14,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import lombok.SneakyThrows;
 import ua.com.foxminded.config.IntegrationTestConfig;
@@ -30,13 +29,13 @@ import ua.com.foxminded.service.DataGenerator;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = IntegrationTestConfig.class)
-@WebAppConfiguration
+@SpringBootTest
+//@WebAppConfiguration
+@AutoConfigureMockMvc
 public class TestIntegration {
 
-    private MockMvc mockMvc;
-
     @Autowired
-    private WebApplicationContext webApplicationContext;
+    private MockMvc mockMvc;
 
     @Autowired
     private Dao<StudentEntity> studentDao;
@@ -46,7 +45,6 @@ public class TestIntegration {
 
     @BeforeEach
     public void setup() throws Exception {
-        mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
 
         dataGenerator.createTables();
         dataGenerator.createTestData();
@@ -73,7 +71,7 @@ public class TestIntegration {
     public void createTimeTableShouldReturnModelAttributeAndView() {
         mockMvc.perform(post("/timetables").contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
                 .param("date", LocalDate.now().toString()).param("startTime", "10:00").param("endTime", "10:15")
-                .param("group.groupName", "AA-11").param("course.courseName", "Math").param("teacher", "1"))
+                .param("group.id", "1").param("course.id", "1").param("teacher", "1"))
                 .andExpect(view().name("redirect:/timetables")).andExpect(model().attributeExists("timetable"));
 
     }
@@ -83,7 +81,7 @@ public class TestIntegration {
     public void updateTimeTableShouldReturnModelAttributeAndView() {
         mockMvc.perform(put("/timetables/1").contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
                 .param("date", LocalDate.now().toString()).param("startTime", "10:00").param("endTime", "10:15")
-                .param("group.groupName", "AA-11").param("course.courseName", "Math").param("teacher", "1"))
+                .param("group.id", "2").param("course.id", "2").param("teacher", "1"))
                 .andExpect(view().name("redirect:/timetables")).andExpect(model().attributeExists("timetable"));
     }
 
